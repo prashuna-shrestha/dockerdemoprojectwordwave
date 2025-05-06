@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import BlogPost
 
 User = get_user_model()
 
@@ -12,11 +13,9 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        # Use the create_user method to ensure password is hashed
         return User.objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
-        # Securely update password if it's provided
         password = validated_data.pop('password', None)
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -24,3 +23,18 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class BlogPostSerializer(serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
+
+    class Meta:
+        model = BlogPost
+        fields = ['id', 'author', 'title', 'content', 'created_at']
+        read_only_fields = ['author', 'created_at']
+
+    def get_author(self, obj):
+        return {
+            'id': obj.author.id,
+            'email': obj.author.email,
+            'full_name': obj.author.full_name
+        }
