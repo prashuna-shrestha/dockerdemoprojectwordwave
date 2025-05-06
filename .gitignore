@@ -1,0 +1,15 @@
+# Node.js (Next.js frontend)
+frontend/node_modules/
+frontend/.next/
+
+# Python (Django backend)
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+backend/env/
+backend/.env
+
+# General
+*.log
+.DS_Store
