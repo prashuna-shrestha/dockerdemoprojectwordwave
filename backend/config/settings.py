@@ -111,16 +111,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import pymysql
 pymysql.install_as_MySQLdb()
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'demoproject',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'PASSWORD': 'root',  #  password set in docker-compose.yml
+        'HOST': 'db',  #  service name in docker-compose.yml
         'PORT': '3306',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
